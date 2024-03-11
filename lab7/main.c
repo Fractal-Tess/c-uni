@@ -2,25 +2,26 @@
 #include "Menu.h"
 
 char *txt_menu_g[] = {"MENU:",
-                      "Minimum i maksimum",
-                      "Chisla v interval",
-                      "Sredno aritmetichna stoinost",
-                      "Zamiana na otricatelnite chisla",
-                      "Izhod",
+                      "Min and max",
+                      "Numbers in interval",
+                      "Average value",
+                      "Replace negative numbers",
+                      "Sum in interval",
+                      "Exit",
                       NULL};
 
 int main(void) {
   int choice;
   int total = 0;
-  char fname[40]; // imeto na faila za chetene
+  char fname[40]; // File for reading
   FILE *f1;
 
-  puts("Vavedete ime na fail:");
+  puts("Input file name:");
   fgets(fname, sizeof(fname), stdin);
   fname[strlen(fname) - 1] = '\0';
 
   if (!(f1 = fopen(fname, "rt"))) {
-    fprintf(stderr, "input file not found\n");
+    fprintf(stderr, "Input file not found\n");
     exit(1);
   }
 
@@ -31,26 +32,36 @@ int main(void) {
       maxmin(f1);
       getchar();
       break;
+
     case 2:
       interval(f1);
       getchar();
       break;
+
     case 3:
-      av(f1);
+      average(f1);
       getchar();
       break;
+
     case 4:
       change(f1);
       getchar();
       break;
+
     case 5:
-      exit(1);
+      sum_in_inerval(f1);
       break;
+    case 6:
+      goto loop_end;
+      break;
+
     default:
       getchar();
     }
-    system("cls");
   } while (1);
+
+loop_end:
+  // Close file
   fclose(f1);
   return 0;
 }

@@ -1,31 +1,55 @@
 #include "Header.h"
+
 void my_line_flush() {
   int ch;
   while ((ch = getchar()) != '\n' && ch != EOF)
     ;
 }
-void maxmin(FILE *f1) {
+void sum_in_inerval(FILE *f1) {
   int i = 0;
   float num;
-  float min, max;
+  float sum = 0;
+  float low, high;
+  printf("Lower interval cut-off:");
+  scanf("%f", &low);
+  printf("Upper interval cut-off:");
+  scanf("%f", &high);
   rewind(f1);
-  while (fscanf(f1, "%f", &num) != EOF) // Chetene na chisla
+  while (fscanf(f1, "%f", &num) != EOF) // Reading of numbers
   {
-    if (i == 0) {
+    if (num >= low && num <= high) {
+      sum += num;
+      i++;
+    }
+  }
+  if (!i)
+    printf("No numbers in file!\n");
+  else
+    printf("Sum of numbers in interval = %.2f", sum);
+}
+
+void maxmin(FILE *f1) {
+  int count = 0;
+  float num, min, max;
+
+  // Go to beggining of file cursor
+  rewind(f1);
+  while (fscanf(f1, "%f", &num) != EOF) // Read numbers
+  {
+    if (count == 0) {
       max = num;
       min = num;
-      i++;
     } else {
       if (num < min)
         min = num;
       if (num > max)
         max = num;
-      i++;
     }
+    count++;
   }
   printf("max = %.2f\n", max);
   printf("min = %.2f\n", min);
-  printf("Broi chisla vav faila = %d\n", i);
+  printf("Numbers in file = %d\n", count);
 }
 
 void interval(FILE *f1) {
@@ -33,70 +57,80 @@ void interval(FILE *f1) {
   float num;
   FILE *f2;
   char fname[40];
-  float left, right;
-  printf("Dolna granica:");
-  scanf("%f", &left);
-  printf("Gorna granica:");
-  scanf("%f", &right);
-  puts("Ime na fail:");
+  float low, high;
+
+  printf("Lower interval cut-off:");
+  scanf("%f", &low);
+
+  printf("Upper interval cut-off:");
+  scanf("%f", &high);
+
+  puts("Name of file:");
   my_line_flush();
   fgets(fname, sizeof(fname), stdin);
   fname[strlen(fname) - 1] = '\0';
+
   if (!(f2 = fopen(fname, "wt"))) {
-    fprintf(stderr, "input file not found\n");
+    fprintf(stderr, "Input file not found\n");
     exit(1);
   }
+
   rewind(f1);
-  while (fscanf(f1, "%f", &num) != EOF) // chetene na chisla
+  while (fscanf(f1, "%f", &num) != EOF) // Reading of numbers
   {
-    if (num >= left && num <= right) {
+    if (num >= low && num <= high) {
       fprintf(f2, "%.2f ", num);
       i++;
     }
   }
-  printf("Noviat fail e sazdaden!\n");
-  printf("Broi chisla v intervala = %d\n", i);
+  printf("The new file is created\n");
+  printf("Count of numbers in interval = %d\n", i);
   fclose(f2);
 }
-void av(FILE *f1) {
+
+void average(FILE *f1) {
   int i = 0;
   float num;
-  float s = 0;
+  float sum = 0;
+
   rewind(f1);
-  while (fscanf(f1, "%f", &num) != EOF) // chetene na chisla
+  while (fscanf(f1, "%f", &num) != EOF) // Reading of numbers
   {
-    s = s + num;
+    sum += num;
     i++;
   }
   if (!i)
-    printf("Vav faila niama chisla!\n");
+    printf("No numbers in file!\n");
   else
-    printf("Sredna stojnost = %.2f", s / i);
+    printf("Average value = %.2f", sum / i);
 }
 
 void change(FILE *f1) {
-  int i = 0;
+  int count = 0;
   float num;
   FILE *f2;
   char fname[40];
 
-  puts("Ime na fail:");
+  puts("File name:");
   my_line_flush();
+
   fgets(fname, sizeof(fname), stdin);
   fname[strlen(fname) - 1] = '\0';
   if (!(f2 = fopen(fname, "wt"))) {
-    fprintf(stderr, "input file not found\n");
+    fprintf(stderr, "Input file not found\n");
     exit(1);
   }
   rewind(f1);
-  while (fscanf(f1, "%f", &num) != EOF) // chetene na chisla
+
+  while (fscanf(f1, "%f", &num) != EOF) // Reading of numbers
   {
     if (num < 0) {
+      // If negative number
       fprintf(f2, "%.2f ", -num);
-      i++;
+      count++;
     } else
       fprintf(f2, "%.2f ", num);
   }
-  printf("Noviat fail e sazdaden!\n");
-  printf("Broi otricatelni chisla =%d\n", i);
+  printf("The new file is created!\n");
+  printf("Count of negative numbers = %d\n", count);
 }
