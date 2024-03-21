@@ -8,11 +8,11 @@ typedef struct {
   float grade;
 } STD;
 
-void flushInput(); 
-STD *inputStd(int b, STD *s); 
-void outputStd(int b, STD *s); 
-void success(int b, STD *s); 
-void print_students_from_group(int b,STD *s);
+void flushInput();
+STD *inputStd(int b, STD *s);
+void outputStd(int b, STD *s);
+void success(int b, STD *s);
+void print_students_from_group(int b, STD *s);
 
 int main() {
   int i, num = 0, sum = 0;
@@ -29,7 +29,7 @@ int main() {
   outputStd(num, s);
   success(num, s);
 
-  print_students_from_group(num,s);
+  print_students_from_group(num, s);
   return 0;
 }
 
@@ -81,7 +81,7 @@ void success(int b, STD *s) {
     printf("No students from group %d!\n", key);
 }
 
-void print_students_from_group(int b, STD *s){
+void print_students_from_group(int b, STD *s) {
   int group;
   printf("\n\nPrint students from group: ");
   printf("\nEnter group number: ");
